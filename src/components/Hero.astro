@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import { userData } from "@/data/userData";
+import Badge from "@/components/Badge.astro";
+import SocialPill from "@/components/SocialPill.astro";
+import Linkedin from "@/components/icons/Linkedin.astro";
+import GitHub from "@/components/icons/GitHub.astro";
+import Mail from "@/components/icons/Mail.astro";
+import DownloadIcon from "@/components/icons/DownloadIcon.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="max-w-6xl text-white">
+  <!-- Flex Container für das gesamte Layout -->
+  <div class="flex flex-col md:flex-row gap-8 items-start md:items-center">
+    
+    <!-- Linke Seite: Beschreibung -->
+    <div class="flex-1 max-w-xl ">
+            <h1 class="text-5xl animate-fade-in-left font-bold mb-5 ">
+        {t("hero.greet")}
+        <span class="text-gradient">{userData.name}</span>
+      </h1>
+      <h2 class="flex animate-fade-in-up flex-col gap-y-2 text-xl text-pretty text-gray-300">
+        <span class="text-3xl text-gradient">{t("hero.rol")}</span>
+        {t("hero.description")}
+      </h2>
+      <nav class="flex flex-wrap animate-fade-in-up gap-4 mt-7">
+        <SocialPill href={userData.linkedin} >
+          <Linkedin />
+        </SocialPill>
+        <SocialPill href={userData.github}>
+          <GitHub />
+        </SocialPill>
+        <SocialPill href={`mailto:${userData.mail}`}>
+          <Mail />
+          {t("hero.contact")}
+        </SocialPill>
+        
+      </nav>
+    </div>
+
+    <!-- Rechte Seite: Bild und Badge -->
+    <div class="flex animate-fade-in-right ml-auto flex-col items-center gap-4 animate-fade-in-left md:min-w-[200px]">
+      <Image
+        class="transition duration-500 hover:rotate-2 hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.7)] rounded-lg w-40 h-40 md:w-80 md:h-80 object-cover"
+        src="/images/me.webp"
+        alt={userData.name}
+        width={160}
+        height={160}
+        loading="eager"
+      />
+      <a
+			href={userData.linkedin}
+			target="_blank"
+			rel="noopener"
+			class="flex items-center transition hover:scale-105"
+		>
+			<Badge>{t("hero.badge")}</Badge>
+		</a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 350%;
+    background-position: 0;
+  }
+</style>

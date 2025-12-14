@@ -1,0 +1,66 @@
+---
+import AboutMe from "@/components/AboutMe.astro";
+import AboutMeIcon from "@/components/icons/AboutMeIcon.astro";
+import CodeIcon from "@/components/icons/CodeIcon.astro";
+import Container from "@/components/Container.astro";
+import Experience from "@/components/Experience.astro";
+import Hero from "@/components/Hero.astro";
+import Footer from "@/components/Footer.astro";
+import Layout from "@/layouts/Layout.astro";
+import Projects from "@/components/Projects.astro";
+import WorkIcon from "@/components/icons/WorkIcon.astro";
+import TitleSection from "@/components/TitleSection.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import Container2 from "@/components/Container2.astro";
+import Techstack from "@/components/Techstack.astro";
+import Container3 from "@/components/Container3.astro";
+import TitleSection2 from "@/components/TitleSection2.astro";
+import TechstackIcon from "@/components/icons/TechstackIcon.astro";
+
+type tLang = (str: any) => any;
+
+const lang = getLangFromUrl(Astro.url);
+const t:tLang = useTranslations(lang);
+---
+
+<Layout
+	title={t('layout.title')}
+	description={t('layout.description')}
+>
+	<main class="px-6 md:px-12">
+		<Container2>
+			<Hero />
+		</Container2>
+		<Container2 class="animate-fade-in-up" id="experience">
+			<TitleSection>
+				<WorkIcon class="size-10" />
+				{t('index.experience')}
+			</TitleSection>
+			<Experience/>
+		</Container2>
+		<Container3 id="projects">
+			<TitleSection>
+				<CodeIcon class="size-10" />
+				{t('index.projects')}
+			</TitleSection>
+			<Projects />
+		</Container3>
+		<Container2 id="techstack">
+			<TitleSection> 
+				<TechstackIcon class="size-10" />
+				{t('index.techstack')}
+				</TitleSection>
+			<Techstack/>
+		</Container2>
+		<Container3 id="about-me">
+			<TitleSection>
+				<AboutMeIcon class="size-10" />
+				{t('index.about')}
+			</TitleSection>
+			<AboutMe />
+		</Container3>
+        <Container2>
+            <Footer />
+        </Container2>
+	</main>
+</Layout>

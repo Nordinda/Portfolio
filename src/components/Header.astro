@@ -1,0 +1,101 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { ui } from "@/i18n/ui";
+import LanguagePicker from "@/components/LanguagePicker.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
+
+const navItems = [
+	{ href: "#experience", key: "navbar.experience" },
+	{ href: "#projects", key: "navbar.projects" },
+	{ href: "#techstack", key: "navbar.techstack" },
+	{ href: "#about-me", key: "navbar.about-me" },
+
+];
+
+type NavKey = keyof typeof ui['en'];
+---
+
+<header
+	class="fixed animate-fade-in-down top-0 flex justify-end items-center gap-x-4 w-full z-10"
+>
+	<nav class="fixed top-0 flex justify-start gap-x-4 md:gap-x-8 px-5 w-full">
+  {
+			navItems.map(({ href, key }) => (
+			<a
+				class="nav-link relative py-4 transition hover:scale-105 text-white group"
+				href={href}
+				data-section={href.replace('#', '')}
+			>
+				{translate(key as NavKey)}
+				<div class="h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-pink-500 to-violet-500 transition-all duration-300 rounded-full self-start"></div>
+			</a>
+			))
+		}
+	</nav>
+
+	<LanguagePicker />
+
+	<script>
+		history.scrollRestoration = 'manual';
+
+		if (window.location.hash) {
+			history.replaceState(null, '', window.location.pathname);
+			window.scrollTo(0, 0);
+			}
+
+		document.addEventListener("DOMContentLoaded", () => {
+			const sections = document.querySelectorAll("section[id]");
+			const navLinks = document.querySelectorAll(".nav-link");
+
+			function setActiveLink() {
+			let current = "";
+
+			sections.forEach((section) => {
+				const el = section as HTMLElement;
+				const sectionTop = el.offsetTop;
+				const sectionHeight = el.clientHeight;
+
+				if (window.scrollY >= sectionTop - 200) {
+				current = el.getAttribute("id") ?? ""; // Fix hier
+				}
+			});
+
+			navLinks.forEach((link) => {
+				const underline = link.querySelector('div');
+				link.classList.remove("text-purple-500");
+				if (underline) {
+					underline.classList.remove("w-full");
+					underline.classList.add("w-0");
+				}
+				if (link.getAttribute("data-section") === current) {
+					link.classList.add("text-purple-500");
+					if (underline) {
+						underline.classList.remove("w-0");
+						underline.classList.add("w-full");
+					}
+				}
+			});
+			}
+
+			window.addEventListener("scroll", setActiveLink);
+			setActiveLink();
+		});
+	</script>
+
+</header>
+
+<style>
+	nav {
+		animation: nav-shadown 1s linear both;
+		animation-timeline: scroll();
+		animation-range: 0 100px;
+	}
+
+	@keyframes nav-shadown {
+		to {
+			@apply backdrop-blur-md bg-white/10 ring-1 ring-white/10 shadow-lg;
+		}
+	}
+</style>
