@@ -42,7 +42,7 @@ export const ui = {
 				title: "Software Engineer",
 				company: "Deutsche Telekom ",
 				description:
-					"Build and deploy microservice-based automation platforms with <strong>FastAPI, Vue.js, and Docker,</strong>  including CI/CD and real-time monitoring.",
+					"Build and deploy microservice-based automation platforms with FastAPI, Vue.js, and Docker, including CI/CD and real-time monitoring.",
 				latest: true,
 			},
 			{
